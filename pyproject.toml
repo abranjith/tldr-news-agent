@@ -1,0 +1,19 @@
+[project]
+name = "tldr-news-agent"
+version = "0.1.0"
+description = "AI-powered news summarization tool"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic-ai-slim[openai,anthropic,google]",
+    "pydantic",
+    "pyyaml",
+    "click",
+    "httpx",
+    "python-dotenv",
+    "validators>=0.35.0",
+    "rich>=14.1.0",
+]
+
+[project.scripts]
+tldr-news-agent = "main:main"
