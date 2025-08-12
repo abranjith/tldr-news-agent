@@ -4,24 +4,22 @@ An AI-powered CLI tool that fetches and summarizes news articles from multiple s
 
 ## ✨ Features
 
-- **News Search**: Uses search engine (option between duckduckgo and google) to fetch current news on the provided topics
+- **News Search**: Uses underlying search engine to fetch current news on the provided topics (defaults to "top news stores")
 
-- **Flexible LLM Support**: Choose from multiple AI providers:
+- **Flexible LLM Support**: Choose from multiple AI (LLM) providers:
   - Ollama (Local models)
-  - OpenAI (GPT-4, GPT-3.5)
-  - Anthropic (Claude)
-  - etc.
+  - Google (Gemini)
+  - OpenAI
+  - Anthropic (Claude) etc.
 
 - **Smart Summarization**: Uses AI to create:
+  - Summarizes news on given queries and generates structured markdown report
   - Focus on readability
   - Source attribution
 
-- **Configurable Output**: 
-  - Structured markdown reports
-  - Custom file naming
-  - Individual agent summaries
-
 ## Sample reports
+
+*Note* - This is for reference only
 
 ### Rendered to terminal
 
@@ -37,8 +35,8 @@ An AI-powered CLI tool that fetches and summarizes news articles from multiple s
 ### Prerequisites
 
 - Python 3.13+
-- uv (for package management). uv is recomended althought pip should work fine as well
-- API keys for your chosen LLM provider
+- [uv](https://github.com/astral-sh/uv) for package management. Although, uv is recomended pip should work fine as well
+- API keys for your chosen LLM provider. Note that for local LLM (say ollama) API key may not be needed
 
 ### Installation
 
@@ -90,7 +88,7 @@ Edit `src/config.yaml` to configure:
 
 ```yaml
 llm:
-  provider: "openai"  # openai, anthropic, ollama, azure-openai
+  provider: "openai"  # openai, anthropic, ollama, gemini
   
   models:
     openai:
@@ -102,30 +100,18 @@ llm:
       base_url: "http://localhost:11434/v1"
 ```
 
-### For Ollama (Local LLM)
-
-1. **Install Ollama**: Follow instructions at [ollama.com](https://ollama.com)
-
-2. **Pull a model**:
-   ```bash
-   ollama pull llama3.2:3b
-   ```
-
-3. **Update configuration**:
-   ```bash
-   # Use Ollama provider
-   uv run python main.py run --provider ollama
-   ```
-
 ## 📋 Usage
 
 ### Basic Usage
 
 ```bash
-# Generate full news report with default settings
-uv run python main.py
+# Generate full news report with default settings (top news stories)
+uv run python main.py run
 
-# Generate full news report with default settings and renders on console
+# Search for specific queries
+uv run python main.py run -q "climate change" -q "football news"
+
+# Generate full news report with default settings and render on console (as markdown)
 uv run python main.py --display
 
 # Generate with specific LLM provider
@@ -136,17 +122,19 @@ uv run python main.py run --output my_news_report.md
 
 # Verbose output
 uv run python main.py run --verbose
-```
 
-### CLI Commands
-
-```bash
 # List available LLM providers
 uv run python main.py list-providers
 
 # Show help
 uv run python main.py --help
 ```
+### Important Tips
+
+- Needless to say using better LLMs will yield better results. Also make sure to use LLMs that support tool usage
+- You can specify multiple queries using `-q` or `--query` option. Use this to search for specific topics or news items just like you would in a search engine
+- Make sure to configure your `.env` file with the required API keys for the LLM provider you choose
+- Make sure to configure `src/config.yaml` with the correct settings specially if the default settings do not work for you.
 
 ## 📄 License
 
@@ -155,6 +143,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Built with [Pydantic AI](https://ai.pydantic.dev/)
-- Supports multiple search engines - Google and DuckDuckGo for news search. Default is [DuckDuckGo](https://duckduckgo.com/)
+- Supports multiple search engines - [Google PSE](https://programmablesearchengine.google.com/) and [DuckDuckGo](https://duckduckgo.com/) for news search. Default is DuckDuckGo
 - Console markdown rendering supported by [Rich](https://github.com/Textualize/rich)
 - CLI support using [Click](https://github.com/pallets/click)

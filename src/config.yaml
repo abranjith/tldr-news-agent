@@ -1,12 +1,12 @@
 # LLM Configuration
 llm:
-  # Options: openai, anthropic, ollama, azure-openai
+  # Options: openai, anthropic, ollama, gemini
   provider: "ollama"
   
   # Model configurations for different providers
   models:
     openai:
-      model: "gpt-4o-mini"
+      model: "gpt-5"
       api_key_env: "OPENAI_API_KEY"
     
     anthropic:
@@ -24,8 +24,8 @@ llm:
 # Search Configuration
 search:
   search_engine: "duckduckgo"  # Options: duckduckgo, google, bing
-  max_results: 10
-  time_limit: "d"  # d=day, w=week, m=month
+  max_results: 25
+  time_limit: "d"  # d=day, w=week, m=month, y=year
   google:
     api_key_env: "GOOGLE_PSE_API_KEY"
     search_engine_id_env: "GOOGLE_PSE_SEARCH_ENGINE_ID"
@@ -66,7 +66,7 @@ agents:
         Tier 2 (Acceptable with Scrutiny): Reputable national and local news outlets, respected industry-specific publications (e.g., Nature, The Lancet, TechCrunch), and well-regarded think tanks.
         Tier 3 (Use with Caution): Press releases from companies involved in the news. These can be used for direct quotes or statements of position but must be identified as such.
         
-        AVOID COMPLETELY: Articles about misinformation, Advertisements, Non news content, personal blogs, user-generated content (forums, social media posts, wikis edited by the public), opinion editorials (unless the query is specifically about someone's opinion), and outlets known for sensationalism or misinformation.
+        AVOID COMPLETELY: Articles about Misinformation, Profanity, Degrading poeple or community, Advertisements, personal blogs, user-generated content (forums, social media posts, wikis edited by the public), opinion editorials (unless the query is specifically about someone's opinion), and outlets known for sensationalism or misinformation SHOULD BE COMPLETELY AVOIDED.
 
         4. Cite Sources: At the end of EACH topic's summary, you MUST include a Sources: section. In this section, list the full URLs of all the source articles that were used to create that specific summary. List one URL per line.
 

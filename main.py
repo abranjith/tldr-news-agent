@@ -29,8 +29,9 @@ console = Console()
 @click.option(
     "--query",
     "-q",
-    default="current trending news",
-    help="Search query for news (defaults to 'current trending news')"
+    multiple=True,
+    default=["top news stories"],
+    help="Search query for news. You can specify multiple queries (e.g., -q query1 -q query2). Defaults to 'top news stories' if not provided."
 )
 @click.option(
     "--provider",
@@ -71,7 +72,7 @@ def main(query, provider, output, config, verbose, display):
     Examples:
         tldr-news-agent                          # Generate full report with default settings
         tldr-news-agent --provider ollama        # Use local Ollama LLM
-        tldr-news-agent --output my_news.md     # Save to custom file
+        tldr-news-agent --output my_news.md      # Save to custom file
     """
     asyncio.run(_async_main(query, provider, output, config, verbose, display))
 
@@ -97,9 +98,9 @@ async def _async_main(query, provider, output, config, verbose, display):
         # Run full report
         click.echo("🚀 Starting comprehensive news summary generation...")
         
-        report = await orchestrator.generate_news_report(query, save_to_file=not display, output_path=output)
+        report = await orchestrator.generate_news_report(*query, save_to_file=not display, output_path=output)
         
-        click.echo("✅ News report successfully generated!")
+        click.echo("✅ All Done!")
         if display:
             markdown = Markdown(report)
             console.print(markdown)
