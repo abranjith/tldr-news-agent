@@ -48,7 +48,7 @@ class DuckDuckGoSearchTool:
         """
         limit = self.max_results or 10
         results = []
-        query = query.replace("news stories", "stories").strip()
+        query = query.replace(" news ", " ").strip()
 
         while True:
             search = functools.partial(self.client.news, max_results=limit, timelimit=self.timelimit)
@@ -63,7 +63,7 @@ class DuckDuckGoSearchTool:
                 break
         final_results = [
             SearchResult(
-                href=result["url"],
+                url=result["url"],
                 title=result.get("title"),
                 body=result.get("body"),
             )

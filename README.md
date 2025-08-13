@@ -1,4 +1,4 @@
-# 📰 News Summary Tool
+# 📰 TL;DR NEWS
 
 An AI-powered CLI tool that fetches and summarizes news articles from multiple sources, providing concise and informative summaries for quick consumption. Built with flexibility to support multiple LLM providers including local models.
 
@@ -12,8 +12,8 @@ An AI-powered CLI tool that fetches and summarizes news articles from multiple s
   - OpenAI
   - Anthropic (Claude) etc.
 
-- **Smart Summarization**: Uses AI to create:
-  - Summarizes news on given queries and generates structured markdown report
+- **Smart Summarization**:
+  - Summarizes news articles, providing concise and informative summaries on given queries and generates structured markdown report using AI
   - Focus on readability
   - Source attribution
 
@@ -36,7 +36,7 @@ An AI-powered CLI tool that fetches and summarizes news articles from multiple s
 
 - Python 3.13+
 - [uv](https://github.com/astral-sh/uv) for package management. Although, uv is recomended pip should work fine as well
-- API keys for your chosen LLM provider. Note that for local LLM (say ollama) API key may not be needed
+- API keys for your chosen LLM provider. Note that for local LLMs (say ollama) API key may not be needed
 
 ### Installation
 
@@ -59,10 +59,8 @@ An AI-powered CLI tool that fetches and summarizes news articles from multiple s
 
 4. **Run the tool**:
    ```bash
-   # Generate full news report
-   uv run python main.py
 
-   # Or using the CLI
+   # Run with default settings
    uv run python main.py run
    ```
 
@@ -143,6 +141,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Built with [Pydantic AI](https://ai.pydantic.dev/)
-- Supports multiple search engines - [Google PSE](https://programmablesearchengine.google.com/) and [DuckDuckGo](https://duckduckgo.com/) for news search. Default is DuckDuckGo
+- Supports multiple search engines - [Google PSE](https://programmablesearchengine.google.com/) and [DuckDuckGo](https://duckduckgo.com/) (also see [DDGS](https://github.com/deedy5/ddgs)) for news search. Default is DuckDuckGo
 - Console markdown rendering supported by [Rich](https://github.com/Textualize/rich)
-- CLI support using [Click](https://github.com/pallets/click)
+- [Click](https://github.com/pallets/click) for CLI interface

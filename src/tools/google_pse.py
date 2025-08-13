@@ -75,7 +75,7 @@ class GoogleSearchTool:
                 break
         final_results = [
             SearchResult(
-                href=result["link"],
+                url=result["link"],
                 title=result.get("title"),
                 body=result.get("snippet"),
             )

@@ -36,7 +36,7 @@ console = Console()
 @click.option(
     "--provider",
     "-p",
-    type=click.Choice(["openai", "anthropic", "ollama", "azure-openai"]),
+    type=click.Choice(["openai", "anthropic", "ollama", "gemini"]),
     help="LLM provider to use (defaults to configuration setting)"
 )
 @click.option(
@@ -88,10 +88,6 @@ async def _async_main(query, provider, output, config, verbose, display):
             if provider:
                 click.echo(f"🤖 Using LLM provider: {provider}")
             
-            current_config = config_loader.get_llm_config()
-            default_provider = current_config.get("provider", "ollama")
-            click.echo(f"📋 Default provider: {default_provider}")
-        
         # Initialize orchestrator
         orchestrator = NewsOrchestrator(config_loader, provider)
         
