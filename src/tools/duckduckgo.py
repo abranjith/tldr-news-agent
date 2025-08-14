@@ -48,7 +48,11 @@ class DuckDuckGoSearchTool:
         """
         limit = self.max_results or 10
         results = []
+        #since we are using the news endpoint, there is no need to stress "news" in the query
         query = query.replace(" news ", " ").strip()
+        # if ends with " news", remove it
+        if query.endswith(" news"):
+            query = query[:-5].strip()
 
         while True:
             search = functools.partial(self.client.news, max_results=limit, timelimit=self.timelimit)

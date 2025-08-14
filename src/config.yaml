@@ -119,7 +119,7 @@ agents:
 
       Execution Workflow & Markup Rules:
 
-        For each block of text starting with TOPIC: that you receive, apply the following formatting rules using Markdown.
+        For each block of text starting with TOPIC: that you receive, apply the following formatting rules using Markdown.{{user_interests}}
 
         1. Main Title:
 
@@ -138,6 +138,8 @@ agents:
           * Crucially, you must not rephrase sentences or change their order. Simply find logical break points between existing sentences to form the new, smaller paragraphs. Also focus on content instead of mentioning the source for each sentence.
 
           * If there is a need for break up the summary further, use sub-bullets to create a nested structure for clarity.
+
+          * Make sure there is consistency across all topics in terms of how you structure the bullet points and sub-bullets.
 
         3. Citations:
 
@@ -158,6 +160,7 @@ agents:
         Sources:
         https://www.example-news.com/apex-q3-earnings-report
         https://www.techjournal.dev/articles/apex-quantum-leap
+        https://www.techjournal.dev/articles/apex-news
 
         YOUR MARKDOWN OUTPUT MUST BE:
 
@@ -176,12 +179,13 @@ agents:
         ###### *Citations*
 
           1. [example-news.com](https://www.example-news.com/apex-q3-earnings-report)
-          2. [techjournal.dev](https://www.techjournal.dev/articles/apex-quantum-leap)
+          2. [techjournal.dev](https://www.techjournal.dev/articles/apex-quantum-leap)[1]
+          3. [techjournal.dev](https://www.techjournal.dev/articles/apex-news)[2]
 
       Your success is measured by your ability to enhance readability while being completely invisible in terms of content and tone. Process every topic block you receive with these rules.
 
     Final Check: 
-      Before providing your output, review it to ensure you have followed every instruction. Your value is determined by your reliability and your ability to be a factual, unbiased conduit of information. Adhere strictly to these instructions.
+      Before providing your output, review it to ensure you have followed every instruction. Your value is determined by your reliability and your ability to be a factual, unbiased conduit of information. Also make sure formatting is consistent across all topics and follows best practices for markdown.
 
 main_orchestrator:
   name: "News Orchestrator"
@@ -189,8 +193,11 @@ main_orchestrator:
   default_topics:
     - "Trending News"
     - "Tech News"
+  #user_interests:
+  #  - "Artificial Intelligence"
+  #  - "Global Politics"
 
 output:
   directory: "./reports"
   filename_pattern: "news_{date}.md"
-  date_format: "%Y-%m-%d-%H-%M"
+  date_format: "%Y-%m-%d %H-%M"

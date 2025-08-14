@@ -29,6 +29,7 @@ class NewsOrchestrator:
         # Load configurations
         self.orchestrator_config = self.config_loader.get_orchestrator_config()
         self.output_config = self.config_loader.get_output_config()
+        user_interests = self.orchestrator_config.get("user_interests", [])
         
         # Initialize agents
         self.news_agent = NewsAgent(
@@ -37,7 +38,8 @@ class NewsOrchestrator:
         )
         self.formatting_agent = FormattingAgent(
             config_loader=self.config_loader,
-            llm_provider=self.llm_provider
+            llm_provider=self.llm_provider,
+            user_interests=user_interests
         )
 
     async def generate_news_report(self, *topics, save_to_file: Optional[bool] = True, output_path: Optional[str] = None) -> str:

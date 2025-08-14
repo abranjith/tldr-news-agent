@@ -7,7 +7,8 @@ class FormattingAgent(BaseAgent):
     """Class for formatting agent."""
     
     def __init__(self, config_loader: Optional[ConfigLoader] = None, 
-                 llm_provider: Optional[str] = None):
+                 llm_provider: Optional[str] = None, 
+                 user_interests: Optional[List[str]] = None):
         """
         Initialize the formatting agent.
         
@@ -15,6 +16,7 @@ class FormattingAgent(BaseAgent):
             agent_name: Name of the agent configuration to load
             config_loader: Optional config loader instance
             llm_provider: Optional LLM provider override
+            user_interests: Optional list of user interests to customize formatting
         """
         super().__init__(
             agent_name="formatting_agent",
@@ -23,12 +25,18 @@ class FormattingAgent(BaseAgent):
         )
         
         # Initialize the AI agent
-        self._init_agent()
-    
-    def _init_agent(self) -> None:
+        self._init_agent(user_interests)
+
+    def _init_agent(self, user_interests: Optional[List[str]]) -> None:
         """Initialize the PydanticAI agent."""
         system_prompt = self.agent_config.get("system_prompt", "")
-        
+        user_interests_str = ""
+        if user_interests:
+            interests = ", ".join(user_interests)
+            user_interests_str = f"User is specifically interested in these subjects: {interests}. So order the topics by these subjects, ensuring that the most important or impactful topics are prioritized."
+        if "{{user_interests}}" in system_prompt:
+            system_prompt = system_prompt.replace("{{user_interests}}", user_interests_str)
+
         # Create the agent with the configured LLM (no tools needed since we handle search separately)
         self.agent = self.llm_factory.create_agent(
             system_prompt=system_prompt,
