@@ -17,6 +17,8 @@ An AI-powered CLI tool that fetches and summarizes news articles from multiple s
   - Focus on readability
   - Source attribution
 
+- **UI to View Reports**: Browse and view generated news reports through a modern web interface.
+
 ## Sample reports
 
 *Note* - This is for reference only
@@ -29,6 +31,11 @@ An AI-powered CLI tool that fetches and summarizes news articles from multiple s
 ### Markdown file
 
 ![Alt text](./docs/images/md_report.png)
+
+
+### Web interface (UI)
+
+![Alt text](./docs/images/server.png)
 
 ## 🚀 Quick Start
 
@@ -124,6 +131,9 @@ uv run python main.py run --verbose
 # List available LLM providers
 uv run python main.py list-providers
 
+#Start localhost server to serve all the reports from reports directory
+uv run python main.py serve
+
 # Show help
 uv run python main.py --help
 ```
@@ -133,6 +143,7 @@ uv run python main.py --help
 - You can specify multiple queries using `-q` or `--query` option. Use this to search for specific topics or news items just like you would in a search engine
 - Make sure to configure your `.env` file with the required API keys for the LLM provider you choose
 - Make sure to configure `src/config.yaml` with the correct settings specially if the default settings do not work for you.
+- Web interface (local server) serves reports from the configured output directory. To view from a different directory, dir_path (absolute path to the reports) can be specified in the URL.
 
 ## 📄 License
 
@@ -144,3 +155,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Supports multiple search engines - [Google PSE](https://programmablesearchengine.google.com/) and [DuckDuckGo](https://duckduckgo.com/) (also see [DDGS](https://github.com/deedy5/ddgs)) for news search. Default is DuckDuckGo
 - Console markdown rendering supported by [Rich](https://github.com/Textualize/rich)
 - [Click](https://github.com/pallets/click) for CLI interface
+- [Flask](https://github.com/pallets/flask), [Tailwind CSS](https://tailwindcss.com/), [Markdown](https://github.com/Python-Markdown/markdown) for the UI

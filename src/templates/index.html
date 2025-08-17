@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}News Reports - TL;DR News Agent{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-bold text-gray-900">News Reports</h2>
+        <div class="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+            {{ total_files }} reports
+        </div>
+    </div>
+    
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <p class="text-sm text-blue-700">
+            <span class="font-medium">📁 Directory:</span> {{ directory }}
+        </p>
+    </div>
+</div>
+
+{% if files %}
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {% for file in files %}
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
+            <div class="p-6">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex-1">
+                        <h3 class="text-lg font-medium text-gray-900 mb-2 line-clamp-2">
+                            {{ file.name | replace('_', ' ') | title }}
+                        </h3>
+                        <p class="text-sm text-gray-500 mb-3">
+                            📄 {{ file.filename }}
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="text-xs text-gray-400 space-y-1">
+                        <div>📅 {{ file.modified_time | timestamp_to_date }}</div>
+                        <div>📊 {{ file.size | file_size }}</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="/{{ file.filename }}" 
+                       class="inline-flex items-center px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-md hover:bg-primary-600 transition-colors duration-200 w-full justify-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        View Report
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-12">
+        <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No Reports Found</h3>
+        <p class="text-gray-500 mb-6">
+            There are no news reports in the current directory.
+        </p>
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-md mx-auto">
+            <p class="text-sm text-yellow-700">
+                💡 <strong>Tip:</strong> Run the news agent to generate reports, or check if the directory path is correct.
+            </p>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Search/Filter functionality (future enhancement) 
+{% if files and total_files > 10 %}
+<div class="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            Search Reports
+        </button>
+        <button class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+            </svg>
+            Filter by Date
+        </button>
+        <button class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            Download All
+        </button>
+    </div>
+</div>
+{% endif %}
+-->
+{% endblock %}

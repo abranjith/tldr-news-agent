@@ -150,6 +150,57 @@ def list_providers():
         click.echo(f"❌ Error loading configuration: {str(e)}", err=True)
 
 
+@cli.command()
+@click.option(
+    "--host",
+    "-h",
+    default="127.0.0.1",
+    help="Host address to bind to (default: 127.0.0.1)"
+)
+@click.option(
+    "--port",
+    "-p",
+    type=int,
+    default=5000,
+    help="Port to bind to (default: 5000)"
+)
+@click.option(
+    "--debug",
+    "-d",
+    is_flag=True,
+    help="Enable debug mode"
+)
+def serve(host, port, debug):
+    """Start the web server to browse news reports."""
+    try:
+        click.echo("🌐 Starting TLDR News Agent web server...")
+        click.echo(f"📍 Server will be available at: http://{host}:{port}")
+        click.echo("📰 Browse your news reports in a beautiful web interface!")
+        click.echo("🛑 Press Ctrl+C to stop the server")
+        click.echo()
+        
+        # Import and start the Flask app
+        from src.server import app
+        app.run(debug=debug, host=host, port=port)
+        
+    except ImportError as e:
+        click.echo(f"❌ Error importing server module: {str(e)}", err=True)
+        click.echo("💡 Make sure Flask is installed: pip install flask", err=True)
+        sys.exit(1)
+    except OSError as e:
+        if "Address already in use" in str(e):
+            click.echo(f"❌ Port {port} is already in use. Try a different port with --port", err=True)
+        else:
+            click.echo(f"❌ Network error: {str(e)}", err=True)
+        sys.exit(1)
+    except KeyboardInterrupt:
+        click.echo("\n🛑 Server stopped by user")
+        sys.exit(0)
+    except Exception as e:
+        click.echo(f"❌ Unexpected error: {str(e)}", err=True)
+        sys.exit(1)
+
+
 # Add CLI commands to main
 cli.add_command(main, name="run")
 
