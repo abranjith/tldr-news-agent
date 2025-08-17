@@ -43,7 +43,10 @@ def get_reports_directory(dir_path: Optional[str] = None) -> Path:
     if dir_path:
         # Set it as absolute path and check if it exists
         return Path(dir_path)
-    
+
+    if 'REPORTS_DIRECTORY' in app.config and app.config['REPORTS_DIRECTORY']:
+        return Path(app.config['REPORTS_DIRECTORY'].strip()).resolve()
+
     output_config = config_loader.get_output_config()
     directory = output_config.get('directory', './reports')
     return Path(directory).resolve()
@@ -112,7 +115,7 @@ def serve_file(filename: str):
                 content = f.read()
             
             # Convert markdown to HTML
-            html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+            html_content = markdown.markdown(content, extensions=['extra', 'codehilite', 'nl2br'])
             
             return render_template(
                 'report.html',

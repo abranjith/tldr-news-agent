@@ -165,12 +165,18 @@ def list_providers():
     help="Port to bind to (default: 5000)"
 )
 @click.option(
+    "--reportsdir",
+    "-r",
+    type=click.Path(),
+    help="Reports directory (defaults to what is set in configuration or current directory/reports if not specified)"
+)
+@click.option(
     "--debug",
     "-d",
     is_flag=True,
     help="Enable debug mode"
 )
-def serve(host, port, debug):
+def serve(host, port, reportsdir, debug):
     """Start the web server to browse news reports."""
     try:
         click.echo("🌐 Starting TLDR News Agent web server...")
@@ -181,6 +187,8 @@ def serve(host, port, debug):
         
         # Import and start the Flask app
         from src.server import app
+        if reportsdir:
+            app.config['REPORTS_DIRECTORY'] = reportsdir
         app.run(debug=debug, host=host, port=port)
         
     except ImportError as e:
